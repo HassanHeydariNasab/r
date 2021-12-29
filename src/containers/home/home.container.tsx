@@ -15,6 +15,14 @@ export const HomeContainer = () => {
 
   const [logout, { isLoading: isLoadingLogout }] = useLogoutMutation();
 
+  const onClickReferralCode = () => {
+    if (user?.referralToken) {
+      navigator.clipboard.writeText(
+        `${window.location.origin}/enter-email/${user.referralToken}`
+      );
+    }
+  };
+
   const onClickLogout = () => {
     if (user === undefined) return;
     logout({ token: user.token, userId: user._id });
@@ -33,5 +41,9 @@ export const HomeContainer = () => {
     }
   }, [user]);
 
-  return <HomeView {...{ user, onClickLogout, isLoadingLogout }} />;
+  return (
+    <HomeView
+      {...{ user, onClickReferralCode, onClickLogout, isLoadingLogout }}
+    />
+  );
 };

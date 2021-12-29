@@ -1,15 +1,16 @@
 import React, { useEffect } from "react";
 import type { ChangeEventHandler, MouseEventHandler } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { useNavigate, useParams } from "react-router-dom";
 import type { RootState } from "../../store";
 import { authSliceActions } from "../../store/auth/auth.slice";
 import { useRequestEmailVerificationMutation } from "../../store/auth/auth.api";
 import { EnterEmailView } from "./enter-email.view";
-import { useNavigate } from "react-router-dom";
 
 export const EnterEmailContainer = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const urlParams = useParams();
 
   const [requestEmailVerification, { isLoading, data }] =
     useRequestEmailVerificationMutation({
@@ -33,6 +34,12 @@ export const EnterEmailContainer = () => {
       navigate("/verify-email");
     }
   }, [data]);
+
+  useEffect(() => {
+    dispatch(
+      authSliceActions.setReferredCodeKey(urlParams.referralToken || "")
+    );
+  }, []);
 
   return (
     <EnterEmailView {...{ email, onChangeEmail, onClickSubmit, isLoading }} />

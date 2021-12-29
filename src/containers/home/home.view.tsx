@@ -1,17 +1,28 @@
-import React from "react";
+import React, { useRef } from "react";
 import type { MouseEventHandler } from "react";
-import { Avatar, Box, Chip, Stack } from "@mui/material";
+import {
+  Avatar,
+  Box,
+  Chip,
+  IconButton,
+  OutlinedInput,
+  Stack,
+  TextField,
+  Tooltip,
+} from "@mui/material";
 import LoadingButton from "@mui/lab/LoadingButton";
 import type { User } from "../../store/auth/auth.types";
 
 interface HomeViewProps {
   user: User | undefined;
+  onClickReferralCode: MouseEventHandler;
   onClickLogout: MouseEventHandler;
   isLoadingLogout: boolean;
 }
 
 export const HomeView = ({
   user,
+  onClickReferralCode,
   onClickLogout,
   isLoadingLogout,
 }: HomeViewProps) => {
@@ -40,6 +51,12 @@ export const HomeView = ({
               color={user.phoneNumberVerified ? "success" : "warning"}
             />
           </Box>
+          <Tooltip title={"click to copy"}>
+            <TextField
+              value={`${window.location.origin}/enter-email/${user.referralToken}`}
+              onClick={onClickReferralCode}
+            />
+          </Tooltip>
           <LoadingButton
             variant={"contained"}
             onClick={onClickLogout}

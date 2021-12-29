@@ -26,6 +26,10 @@ export const RootRouter = () => {
       <Routes>
         <Route path="/" element={<SplashScreen />} />
         <Route path={"enter-email"} element={<EnterEmailScreen />} />
+        <Route
+          path={"enter-email/:referralToken"}
+          element={<EnterEmailScreen />}
+        />
         <Route path={"verify-email"} element={<VerifyEmailScreen />} />
         <Route path={"create-user"} element={<CreateUserScreen />} />
         <Route path={"home"} element={<HomeScreen />} />
