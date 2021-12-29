@@ -1,7 +1,7 @@
 import React from "react";
 import type { ChangeEventHandler, MouseEventHandler } from "react";
-import { Button, Checkbox, Stack, TextField } from "@mui/material";
-import { Link } from "react-router-dom";
+import { Checkbox, Stack, TextField } from "@mui/material";
+import LoadingButton from "@mui/lab/LoadingButton";
 
 interface CreateUserViewProps {
   email: string;
@@ -12,6 +12,7 @@ interface CreateUserViewProps {
   onChangeReferredCodeKey: ChangeEventHandler<HTMLInputElement>;
   onChangeAgreeToPrivacyPolicy: ChangeEventHandler<HTMLInputElement>;
   onClickSubmit: MouseEventHandler;
+  isLoading: boolean;
   isSubmitDisabled: boolean;
   isReferredCodeKeyValid: boolean;
   isCheckReferredCodeKeyLoading: boolean;
@@ -26,6 +27,7 @@ export const CreateUserView = ({
   onChangeReferredCodeKey,
   onChangeAgreeToPrivacyPolicy,
   onClickSubmit,
+  isLoading,
   isSubmitDisabled,
   isReferredCodeKeyValid,
   isCheckReferredCodeKeyLoading,
@@ -50,6 +52,7 @@ export const CreateUserView = ({
         type={"text"}
         value={firstName}
         onChange={onChangeFirstName}
+        helperText={"3 letters or more"}
       />
       <TextField
         label={"Referred Code"}
@@ -82,14 +85,15 @@ export const CreateUserView = ({
         />
         <span>{"I Agree To Privacy Policy"}</span>
       </Stack>
-      <Button
+      <LoadingButton
         variant={"contained"}
         type={"submit"}
         onClick={onClickSubmit}
         disabled={isSubmitDisabled}
+        loading={isLoading}
       >
         Register
-      </Button>
+      </LoadingButton>
     </Stack>
   );
 };

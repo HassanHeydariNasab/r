@@ -51,7 +51,7 @@ export const CreateUserContainer = () => {
   };
 
   const isSubmitDisabled = !(
-    firstName.length > 0 &&
+    !!firstName.match(/^[a-z][a-z'-]{2,}$/i) &&
     agreeToPrivacyPolicy &&
     (isReferredCodeKeyValid || referredCodeKey.length === 0)
   );
@@ -89,6 +89,7 @@ export const CreateUserContainer = () => {
         onChangeReferredCodeKey,
         onChangeAgreeToPrivacyPolicy,
         onClickSubmit,
+        isLoading,
         isSubmitDisabled,
         isReferredCodeKeyValid,
         isCheckReferredCodeKeyLoading,

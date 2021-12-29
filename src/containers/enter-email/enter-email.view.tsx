@@ -1,17 +1,20 @@
 import React from "react";
 import type { ChangeEventHandler, MouseEventHandler } from "react";
-import { Button, Stack, TextField } from "@mui/material";
+import { Stack, TextField } from "@mui/material";
+import LoadingButton from "@mui/lab/LoadingButton";
 
 interface EnterEmailViewProps {
   email: string;
   onChangeEmail: ChangeEventHandler<HTMLInputElement>;
   onClickSubmit: MouseEventHandler;
+  isLoading: boolean;
 }
 
 export const EnterEmailView = ({
   email,
   onChangeEmail,
   onClickSubmit,
+  isLoading,
 }: EnterEmailViewProps) => {
   return (
     <Stack
@@ -27,9 +30,14 @@ export const EnterEmailView = ({
         value={email}
         onChange={onChangeEmail}
       />
-      <Button variant={"contained"} type={"submit"} onClick={onClickSubmit}>
+      <LoadingButton
+        variant={"contained"}
+        type={"submit"}
+        onClick={onClickSubmit}
+        loading={isLoading}
+      >
         Login / Sign Up
-      </Button>
+      </LoadingButton>
     </Stack>
   );
 };

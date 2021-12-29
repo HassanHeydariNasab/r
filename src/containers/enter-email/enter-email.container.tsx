@@ -34,5 +34,7 @@ export const EnterEmailContainer = () => {
     }
   }, [data]);
 
-  return <EnterEmailView {...{ email, onChangeEmail, onClickSubmit }} />;
+  return (
+    <EnterEmailView {...{ email, onChangeEmail, onClickSubmit, isLoading }} />
+  );
 };

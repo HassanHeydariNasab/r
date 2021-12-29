@@ -1,17 +1,20 @@
 import React from "react";
 import type { ChangeEventHandler, MouseEventHandler } from "react";
-import { Button, Stack, TextField } from "@mui/material";
+import { Stack, TextField } from "@mui/material";
+import LoadingButton from "@mui/lab/LoadingButton";
 
 interface VerifyEmailViewProps {
   verificationCode: string;
   onChangeVerificationCode: ChangeEventHandler<HTMLInputElement>;
   onClickSubmit: MouseEventHandler;
+  isLoading: boolean;
 }
 
 export const VerifyEmailView = ({
   verificationCode,
   onChangeVerificationCode,
   onClickSubmit,
+  isLoading,
 }: VerifyEmailViewProps) => {
   return (
     <Stack
@@ -27,9 +30,14 @@ export const VerifyEmailView = ({
         value={verificationCode}
         onChange={onChangeVerificationCode}
       />
-      <Button variant={"contained"} type={"submit"} onClick={onClickSubmit}>
+      <LoadingButton
+        variant={"contained"}
+        type={"submit"}
+        onClick={onClickSubmit}
+        loading={isLoading}
+      >
         Login / Sign Up
-      </Button>
+      </LoadingButton>
     </Stack>
   );
 };

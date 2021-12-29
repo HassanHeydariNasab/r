@@ -63,6 +63,7 @@ export const VerifyEmailContainer = () => {
         verificationCode,
         onChangeVerificationCode,
         onClickSubmit,
+        isLoading,
       }}
     />
   );
