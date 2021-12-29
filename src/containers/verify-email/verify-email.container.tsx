@@ -72,6 +72,14 @@ export const VerifyEmailContainer = () => {
       } else {
         navigate("/create-user");
       }
+    } else if (
+      data &&
+      data.messageObj &&
+      data.messageObj.wrongEmailTokenCount > 2
+    ) {
+      // `navigate` will cause infinite loop
+      // because of cached requestEmailVerification
+      window.location.pathname = "/enter-email";
     }
   }, [data]);
 
