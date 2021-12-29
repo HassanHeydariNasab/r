@@ -32,6 +32,7 @@ export const HomeContainer = () => {
 
   useEffect(() => {
     dispatch(authApi.util.resetApiState());
+    dispatch(authSliceActions.resetAuthFlow());
   }, []);
 
   useEffect(() => {

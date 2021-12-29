@@ -11,8 +11,8 @@ interface AuthSlice {
 }
 
 export const initialState: AuthSlice = {
-  email: "mayank+123123@getbasis.co",
-  verificationCode: "112233",
+  email: "",
+  verificationCode: "",
   firstName: "",
   referredCodeKey: "",
   agreeToPrivacyPolicy: false,
@@ -40,6 +40,13 @@ const authSlice = createSlice({
     },
     setUser: (state, { payload }: PayloadAction<User | undefined>) => {
       state.user = payload;
+    },
+    resetAuthFlow: (state) => {
+      state.email = "";
+      state.verificationCode = "";
+      state.referredCodeKey = "";
+      state.agreeToPrivacyPolicy = false;
+      state.firstName = "";
     },
   },
 });
