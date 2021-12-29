@@ -1,6 +1,6 @@
 import React from "react";
 import type { ChangeEventHandler, MouseEventHandler } from "react";
-import { Button, Stack, TextField } from "@mui/material";
+import { Box, Button, Stack, TextField } from "@mui/material";
 import LoadingButton from "@mui/lab/LoadingButton";
 
 interface VerifyEmailViewProps {
@@ -40,25 +40,37 @@ export const VerifyEmailView = ({
         autoFocus
       />
       <Stack direction={"row"}>
-        <LoadingButton
-          variant={"text"}
-          onClick={onClickResend}
-          loading={isReRequestEmailVerificationLoading}
-          disabled={resendEmailTokenCount === 3}
-        >
-          Resend Email ({3 - resendEmailTokenCount} attempt
-          {3 - resendEmailTokenCount !== 1 ? "s" : ""} is left)
-        </LoadingButton>
-        <LoadingButton
-          variant={"contained"}
-          type={"submit"}
-          onClick={onClickSubmit}
-          loading={isLoading}
-          disabled={wrongEmailTokenCount === 3}
-        >
-          Verify Email {3 - wrongEmailTokenCount} attempt
-          {3 - wrongEmailTokenCount !== 1 ? "s" : ""} is left
-        </LoadingButton>
+        <Stack flex={1} alignItems={"center"}>
+          <LoadingButton
+            variant={"text"}
+            onClick={onClickResend}
+            loading={isReRequestEmailVerificationLoading}
+            disabled={resendEmailTokenCount === 3}
+            fullWidth
+          >
+            Resend Email
+          </LoadingButton>
+          <Box color={"text.secondary"} mt={1}>
+            {3 - resendEmailTokenCount} resend
+            {3 - resendEmailTokenCount !== 1 ? "s" : ""} is left
+          </Box>
+        </Stack>
+        <Stack flex={2} alignItems={"center"}>
+          <LoadingButton
+            variant={"contained"}
+            type={"submit"}
+            onClick={onClickSubmit}
+            loading={isLoading}
+            disabled={wrongEmailTokenCount === 3}
+            fullWidth
+          >
+            Verify Email{" "}
+          </LoadingButton>
+          <Box color={"text.secondary"} mt={1}>
+            {3 - wrongEmailTokenCount} attempt
+            {3 - wrongEmailTokenCount !== 1 ? "s" : ""} is left
+          </Box>
+        </Stack>
       </Stack>
     </Stack>
   );
