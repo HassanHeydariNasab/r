@@ -29,6 +29,7 @@ export const VerifyEmailView = ({
         type={"text"}
         value={verificationCode}
         onChange={onChangeVerificationCode}
+        autoFocus
       />
       <LoadingButton
         variant={"contained"}
@@ -36,7 +37,7 @@ export const VerifyEmailView = ({
         onClick={onClickSubmit}
         loading={isLoading}
       >
-        Login / Sign Up
+        Verify Email
       </LoadingButton>
     </Stack>
   );

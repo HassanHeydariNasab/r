@@ -53,6 +53,7 @@ export const CreateUserView = ({
         value={firstName}
         onChange={onChangeFirstName}
         helperText={"3 letters or more"}
+        autoFocus
       />
       <TextField
         label={"Referred Code"}

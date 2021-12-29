@@ -29,6 +29,7 @@ export const EnterEmailView = ({
         type={"email"}
         value={email}
         onChange={onChangeEmail}
+        autoFocus
       />
       <LoadingButton
         variant={"contained"}
