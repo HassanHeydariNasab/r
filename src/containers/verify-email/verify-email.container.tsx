@@ -49,6 +49,7 @@ export const VerifyEmailContainer = () => {
     if (data && data.success) {
       if (requestEmailVerificationData.results.isLogin) {
         dispatch(authSliceActions.setUser(data.results.user as User));
+        localStorage.setItem("user", JSON.stringify(data.results.user));
         navigate("/home");
       } else {
         navigate("/create-user");

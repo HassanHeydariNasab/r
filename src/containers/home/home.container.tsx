@@ -27,7 +27,8 @@ export const HomeContainer = () => {
   }, []);
 
   useEffect(() => {
-    if (user === undefined) {
+    // TODO use redux-persist in the future :D
+    if (user === undefined && localStorage.getItem("user") === null) {
       navigate("/enter-email");
     }
   }, [user]);
