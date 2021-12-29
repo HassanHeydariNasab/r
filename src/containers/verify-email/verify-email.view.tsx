@@ -6,6 +6,7 @@ import LoadingButton from "@mui/lab/LoadingButton";
 interface VerifyEmailViewProps {
   verificationCode: string;
   onChangeVerificationCode: ChangeEventHandler<HTMLInputElement>;
+  isSubmitDisabled: boolean;
   onClickSubmit: MouseEventHandler;
   isLoading: boolean;
   onClickResend: MouseEventHandler;
@@ -17,6 +18,7 @@ interface VerifyEmailViewProps {
 export const VerifyEmailView = ({
   verificationCode,
   onChangeVerificationCode,
+  isSubmitDisabled,
   onClickSubmit,
   isLoading,
   onClickResend,
@@ -61,10 +63,10 @@ export const VerifyEmailView = ({
             type={"submit"}
             onClick={onClickSubmit}
             loading={isLoading}
-            disabled={wrongEmailTokenCount === 3}
+            disabled={wrongEmailTokenCount === 3 || isSubmitDisabled}
             fullWidth
           >
-            Verify Email{" "}
+            Verify Email
           </LoadingButton>
           <Box color={"text.secondary"} mt={1}>
             {3 - wrongEmailTokenCount} attempt

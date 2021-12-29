@@ -20,6 +20,8 @@ export const VerifyEmailContainer = () => {
     (state: RootState) => state.auth
   );
 
+  const isSubmitDisabled = verificationCode.length !== 6;
+
   const [verifyEmail, { isLoading, data }] = useVerifyEmailMutation({
     fixedCacheKey: "verifyEmail",
   });
@@ -88,6 +90,7 @@ export const VerifyEmailContainer = () => {
       {...{
         verificationCode,
         onChangeVerificationCode,
+        isSubmitDisabled,
         onClickSubmit,
         isLoading,
         onClickResend,
