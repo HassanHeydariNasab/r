@@ -1,6 +1,6 @@
 import React from "react";
 import type { ChangeEventHandler, MouseEventHandler } from "react";
-import { Stack, TextField } from "@mui/material";
+import { Button, Stack, TextField } from "@mui/material";
 import LoadingButton from "@mui/lab/LoadingButton";
 
 interface VerifyEmailViewProps {
@@ -8,6 +8,10 @@ interface VerifyEmailViewProps {
   onChangeVerificationCode: ChangeEventHandler<HTMLInputElement>;
   onClickSubmit: MouseEventHandler;
   isLoading: boolean;
+  onClickResend: MouseEventHandler;
+  isReRequestEmailVerificationLoading: boolean;
+  wrongEmailTokenCount: number;
+  resendEmailTokenCount: number;
 }
 
 export const VerifyEmailView = ({
@@ -15,6 +19,10 @@ export const VerifyEmailView = ({
   onChangeVerificationCode,
   onClickSubmit,
   isLoading,
+  onClickResend,
+  isReRequestEmailVerificationLoading,
+  wrongEmailTokenCount,
+  resendEmailTokenCount,
 }: VerifyEmailViewProps) => {
   return (
     <Stack
@@ -31,14 +39,27 @@ export const VerifyEmailView = ({
         onChange={onChangeVerificationCode}
         autoFocus
       />
-      <LoadingButton
-        variant={"contained"}
-        type={"submit"}
-        onClick={onClickSubmit}
-        loading={isLoading}
-      >
-        Verify Email
-      </LoadingButton>
+      <Stack direction={"row"}>
+        <LoadingButton
+          variant={"text"}
+          onClick={onClickResend}
+          loading={isReRequestEmailVerificationLoading}
+          disabled={resendEmailTokenCount === 3}
+        >
+          Resend Email ({3 - resendEmailTokenCount} attempt
+          {3 - resendEmailTokenCount !== 1 ? "s" : ""} is left)
+        </LoadingButton>
+        <LoadingButton
+          variant={"contained"}
+          type={"submit"}
+          onClick={onClickSubmit}
+          loading={isLoading}
+          disabled={wrongEmailTokenCount === 3}
+        >
+          Verify Email {3 - wrongEmailTokenCount} attempt
+          {3 - wrongEmailTokenCount !== 1 ? "s" : ""} is left
+        </LoadingButton>
+      </Stack>
     </Stack>
   );
 };

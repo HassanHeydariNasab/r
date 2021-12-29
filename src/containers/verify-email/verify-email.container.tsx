@@ -5,6 +5,7 @@ import type { RootState } from "../../store";
 import { authSliceActions } from "../../store/auth/auth.slice";
 import {
   useRequestEmailVerificationMutation,
+  useReRequestEmailVerificationMutation,
   useVerifyEmailMutation,
 } from "../../store/auth/auth.api";
 import { VerifyEmailView } from "./verify-email.view";
@@ -15,6 +16,10 @@ export const VerifyEmailContainer = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
+  const { email, verificationCode } = useSelector(
+    (state: RootState) => state.auth
+  );
+
   const [verifyEmail, { isLoading, data }] = useVerifyEmailMutation({
     fixedCacheKey: "verifyEmail",
   });
@@ -24,9 +29,13 @@ export const VerifyEmailContainer = () => {
       fixedCacheKey: "requestEmailVerification",
     });
 
-  const { email, verificationCode } = useSelector(
-    (state: RootState) => state.auth
-  );
+  const [
+    reRequestEmailVerification,
+    {
+      data: reRequestEmailVerificationData,
+      isLoading: isReRequestEmailVerificationLoading,
+    },
+  ] = useReRequestEmailVerificationMutation();
 
   const onChangeVerificationCode: ChangeEventHandler<HTMLInputElement> = (
     event
@@ -40,6 +49,15 @@ export const VerifyEmailContainer = () => {
     verifyEmail({
       email,
       verificationCode,
+      token: requestEmailVerificationData.results.token.toString(),
+    });
+  };
+
+  const onClickResend: MouseEventHandler = (event) => {
+    event.preventDefault();
+    if (requestEmailVerificationData === undefined) return;
+    reRequestEmailVerification({
+      email,
       token: requestEmailVerificationData.results.token.toString(),
     });
   };
@@ -64,6 +82,15 @@ export const VerifyEmailContainer = () => {
         onChangeVerificationCode,
         onClickSubmit,
         isLoading,
+        onClickResend,
+        isReRequestEmailVerificationLoading,
+        wrongEmailTokenCount:
+          !!data && !!data.messageObj
+            ? data.messageObj.wrongEmailTokenCount
+            : 0,
+        resendEmailTokenCount: !!reRequestEmailVerificationData
+          ? reRequestEmailVerificationData.results.resendEmailTokenCount
+          : 0,
       }}
     />
   );

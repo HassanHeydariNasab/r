@@ -7,5 +7,6 @@ export interface ApiResponse<T = any> {
   statusCode: number;
   responseCode: string;
   message: string;
+  messageObj: T;
   results: T;
 }

@@ -23,6 +23,19 @@ export const authApi = createApi({
         body,
       }),
     }),
+    reRequestEmailVerification: builder.mutation<
+      ApiResponse<{
+        wrongEmailTokenCount: number;
+        resendEmailTokenCount: number;
+      }>,
+      { email: string; token: string }
+    >({
+      query: (body) => ({
+        url: `/users/token/resendtoken`,
+        method: "PUT",
+        body,
+      }),
+    }),
     verifyEmail: builder.mutation<
       ApiResponse,
       { email: string; token: string; verificationCode: string }
@@ -79,6 +92,7 @@ export const authApi = createApi({
 
 export const {
   useRequestEmailVerificationMutation,
+  useReRequestEmailVerificationMutation,
   useVerifyEmailMutation,
   useCreateUserMutation,
   useCheckReferredCodeKeyQuery,
