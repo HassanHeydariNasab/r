@@ -50,6 +50,17 @@ export const authApi = createApi({
         body,
       }),
     }),
+    checkReferredCodeKey: builder.query<
+      ApiResponse,
+      {
+        referredCodeKey: string;
+      }
+    >({
+      query: ({ referredCodeKey }) => ({
+        url: `/users/referral/${referredCodeKey}`,
+        method: "GET",
+      }),
+    }),
     logout: builder.mutation<
       ApiResponse,
       {
@@ -70,5 +81,6 @@ export const {
   useRequestEmailVerificationMutation,
   useVerifyEmailMutation,
   useCreateUserMutation,
+  useCheckReferredCodeKeyQuery,
   useLogoutMutation,
 } = authApi;

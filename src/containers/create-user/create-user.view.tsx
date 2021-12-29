@@ -1,6 +1,7 @@
 import React from "react";
 import type { ChangeEventHandler, MouseEventHandler } from "react";
 import { Button, Checkbox, Stack, TextField } from "@mui/material";
+import { Link } from "react-router-dom";
 
 interface CreateUserViewProps {
   email: string;
@@ -11,6 +12,9 @@ interface CreateUserViewProps {
   onChangeReferredCodeKey: ChangeEventHandler<HTMLInputElement>;
   onChangeAgreeToPrivacyPolicy: ChangeEventHandler<HTMLInputElement>;
   onClickSubmit: MouseEventHandler;
+  isSubmitDisabled: boolean;
+  isReferredCodeKeyValid: boolean;
+  isCheckReferredCodeKeyLoading: boolean;
 }
 
 export const CreateUserView = ({
@@ -22,6 +26,9 @@ export const CreateUserView = ({
   onChangeReferredCodeKey,
   onChangeAgreeToPrivacyPolicy,
   onClickSubmit,
+  isSubmitDisabled,
+  isReferredCodeKeyValid,
+  isCheckReferredCodeKeyLoading,
 }: CreateUserViewProps) => {
   return (
     <Stack
@@ -36,6 +43,7 @@ export const CreateUserView = ({
         type={"email"}
         contentEditable={false}
         value={email}
+        disabled
       />
       <TextField
         label={"First Name"}
@@ -48,13 +56,38 @@ export const CreateUserView = ({
         type={"text"}
         value={referredCodeKey}
         onChange={onChangeReferredCodeKey}
+        error={
+          referredCodeKey.length > 0 &&
+          !isCheckReferredCodeKeyLoading &&
+          !isReferredCodeKeyValid
+        }
+        helperText={
+          isCheckReferredCodeKeyLoading
+            ? "Validating..."
+            : referredCodeKey.length > 0
+            ? isReferredCodeKeyValid
+              ? "OK!"
+              : "Referred Code is invalid; leave it blank if you don't have any."
+            : "Optional"
+        }
       />
-      <Checkbox
-        title={"I'm agree to Privacy Policy"}
-        checked={agreeToPrivacyPolicy}
-        onChange={onChangeAgreeToPrivacyPolicy}
-      />
-      <Button variant={"contained"} type={"submit"} onClick={onClickSubmit}>
+      <Stack
+        direction={"row"}
+        alignItems={"center"}
+        justifyContent={"flex-start"}
+      >
+        <Checkbox
+          checked={agreeToPrivacyPolicy}
+          onChange={onChangeAgreeToPrivacyPolicy}
+        />
+        <span>{"I Agree To Privacy Policy"}</span>
+      </Stack>
+      <Button
+        variant={"contained"}
+        type={"submit"}
+        onClick={onClickSubmit}
+        disabled={isSubmitDisabled}
+      >
         Register
       </Button>
     </Stack>

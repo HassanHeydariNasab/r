@@ -1,9 +1,10 @@
 import React, { useEffect } from "react";
 import type { ChangeEventHandler, MouseEventHandler } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { shallowEqual, useDispatch, useSelector } from "react-redux";
 import type { RootState } from "../../store";
 import { authSliceActions } from "../../store/auth/auth.slice";
 import {
+  useCheckReferredCodeKeyQuery,
   useCreateUserMutation,
   useRequestEmailVerificationMutation,
 } from "../../store/auth/auth.api";
@@ -14,15 +15,24 @@ export const CreateUserContainer = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
+  const { email, firstName, referredCodeKey, agreeToPrivacyPolicy } =
+    useSelector((state: RootState) => state.auth, shallowEqual);
+
   const [createUser, { data, isLoading }] = useCreateUserMutation();
+
+  const {
+    data: checkReferredCodeKeyData,
+    isError,
+    isLoading: isCheckReferredCodeKeyLoading,
+  } = useCheckReferredCodeKeyQuery({ referredCodeKey });
+
+  const isReferredCodeKeyValid =
+    !isError && !!checkReferredCodeKeyData && checkReferredCodeKeyData.success;
 
   const [, { data: requestEmailVerificationData }] =
     useRequestEmailVerificationMutation({
       fixedCacheKey: "requestEmailVerification",
     });
-
-  const { email, firstName, referredCodeKey, agreeToPrivacyPolicy } =
-    useSelector((state: RootState) => state.auth);
 
   const onChangeFirstName: ChangeEventHandler<HTMLInputElement> = (event) => {
     dispatch(authSliceActions.setFirstName(event.target.value));
@@ -39,6 +49,12 @@ export const CreateUserContainer = () => {
   ) => {
     dispatch(authSliceActions.setAgreeToPrivacyPolicy(event.target.checked));
   };
+
+  const isSubmitDisabled = !(
+    firstName.length > 0 &&
+    agreeToPrivacyPolicy &&
+    (isReferredCodeKeyValid || referredCodeKey.length === 0)
+  );
 
   const onClickSubmit: MouseEventHandler = (event) => {
     event.preventDefault();
@@ -73,6 +89,9 @@ export const CreateUserContainer = () => {
         onChangeReferredCodeKey,
         onChangeAgreeToPrivacyPolicy,
         onClickSubmit,
+        isSubmitDisabled,
+        isReferredCodeKeyValid,
+        isCheckReferredCodeKeyLoading,
       }}
     />
   );
